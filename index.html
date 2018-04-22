@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello World</title>
+</head>
+<body>
+    <table>
+        <td class="box"></td>
+        <input class="input" type="text">
+        <button type="submit" class="submit">SUBMIT</button>
+    </table>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var changeData;
+    const box = document.querySelector(".box");
+
+    const addTextToBox = () => {
+        box.textContent = document.querySelector(".input").value;
+        document.querySelector(".input").value="";
+
+        socket.emit('submitChange', box.textContent);
+    
+    }
+    const submitButton = document.querySelector(".submit");
+    submitButton.addEventListener("click",addTextToBox);
+    
+
+    var socket = io();
+    socket.on('broadChange', function(data){
+    console.log("received message "+data);
+    box.textContent = data;
+    });
+    /* socket.on('broadcastChange',function(changeData) {
+        box.textContent = changeData;
+    }) */
+    </script>
+    </body>
+</html>
